@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lab4: Operations</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <h2>Operations</h2>
+        <div class="col-md-12" style="margin-bottom: 12px">
+            <a th:href="@{/patients}" class="btn btn-primary">Go to Patients</a>
+        </div>
+
+        <div class="col-md-12">
+            <div class="row">
+                <div class="col-md-6">
+                    <h4>Actions</h4>
+                    <div class="accordion" id="accordionExample">
+                        <div class="card">
+                            <div class="card-header" id="headingOne">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link text-wrap" type="button" data-toggle="collapse" data-target="#collapseOne" aria-expanded="true" aria-controls="collapseOne">
+                                        Retrieve the names of doctors who have treated more <br>
+                                        than one patient with their hospital name
+                                    </button>
+                                    <a class="btn btn-success" th:href="@{/operations?actions=1}">
+                                        Do action
+                                    </a>
+                                </h2>
+                            </div>
+
+                            <div id="collapseOne" class="collapse show" aria-labelledby="headingOne" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <pre>
+SELECT d.DOC_NAME, h.hos_name
+FROM DOCTORS d
+INNER JOIN treatmentschedules t ON d.DOC_ID = t.doctor_id
+INNER JOIN Hospitals h on d.hos_id = h.hos_id
+GROUP BY d.DOC_NAME, h.hos_name
+HAVING COUNT(DISTINCT t.PAT_ID) > 1;
+                                    </pre>
+                                </div>
+                            </div>
+                        </div>
+                       <div class="card">
+                            <div class="card-header" id="headingTwo">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseTwo" aria-expanded="false" aria-controls="collapseTwo">
+                                        Retrieve the number of treatments performed by each doctor:
+                                    </button>
+                                    <a class="btn btn-success" th:href="@{/operations?actions=2}">
+                                        Do action
+                                    </a>
+                                </h2>
+                            </div>
+                            <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    <pre>
+SELECT d.DOC_NAME, COUNT(*) AS TREATMENT_COUNT
+FROM DOCTORS d
+INNER JOIN TREATMENTS t ON d.DOC_ID = t.DOC_ID
+GROUP BY d.DOC_NAME;
+                                    </pre>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- <div class="card">
+                            <div class="card-header" id="headingThree">
+                                <h2 class="mb-0">
+                                    <button class="btn btn-link collapsed" type="button" data-toggle="collapse" data-target="#collapseThree" aria-expanded="false" aria-controls="collapseThree">
+                                        Collapsible Group Item #3
+                                    </button>
+                                </h2>
+                            </div>
+                            <div id="collapseThree" class="collapse" aria-labelledby="headingThree" data-parent="#accordionExample">
+                                <div class="card-body">
+                                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                                </div>
+                            </div>
+                        </div>-->
+                    </div>
+                </div>
+                <div class="col-md-6">
+                    <div class="col-md-12">
+                        <h4>Result</h4>
+                    </div>
+                    <div class="col-md-12" th:if="${result != null}">
+                            <pre th:text="${result}"></pre>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>

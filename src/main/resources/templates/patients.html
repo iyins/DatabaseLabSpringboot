@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Lab4: Home</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+</head>
+<body>
+<div class="container">
+    <div class="row">
+        <div class="col-md-12" style="margin-bottom: 12px;margin-top: 20px;">
+            <a th:href="@{/operations?actions=0}" class="btn btn-success">Go to Operations</a>
+        </div>
+        <h2>Patients</h2>
+        <div class="col-md-12 alert alert-success" role="alert" th:if="${message != null}">
+            <span th:text="${message}"></span>
+        </div>
+        <div class="col-md-12" style="margin-bottom: 12px">
+            <a th:href="@{/patients/add}" class="btn btn-primary">Add Patient</a>
+        </div>
+        <table class="table table-responsive" border="1">
+            <thead>
+            <tr>
+                <th>ID</th>
+                <th>Name</th>
+                <th>Mobile</th>
+                <th>Address</th>
+                <th>Contact No</th>
+                <th>Email</th>
+                <th>Actions</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="patient : ${patients}">
+                <td th:text="${patient.getId()}"></td>
+                <td th:text="${patient.getName()}"></td>
+                <td th:text="${patient.getMobile()}"></td>
+                <td th:text="${patient.getAddress()}"></td>
+                <td th:text="${patient.getContact()}"></td>
+                <td th:text="${patient.getEmail()}"></td>
+                <td>
+                    <a th:href="@{/patients/edit/{id}(id=${patient.getId()})}">Edit</a>
+                    <a th:href="@{/patients/delete/{id}(id=${patient.getId()})}">Delete</a>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+        <br>
+    </div>
+</div>
+
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+</body>
+</html>
